@@ -6,6 +6,9 @@
 
 ## Prepare nest to call microservices based on grpc
 
+**It is required the microservices package**
+`pnpm i @nestjs/microservices --save`
+
 ``` javascript
 const app = await NestFactory.createMicroservice<MicroserviceOptions>(
   AppModule,
