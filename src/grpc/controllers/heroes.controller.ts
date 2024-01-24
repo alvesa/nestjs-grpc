@@ -2,16 +2,8 @@ import { Metadata, ServerUnaryCall } from '@grpc/grpc-js';
 import { Controller } from '@nestjs/common';
 import { GrpcMethod } from '@nestjs/microservices';
 import { randomInt, randomUUID } from 'crypto';
-
-interface HeroDto {
-  id: number;
-  name: string;
-}
-
-interface Hero {
-  id: number;
-  name: string;
-}
+import { HeroDto } from '../contracts/hero/HeroDto';
+import { Hero } from '../contracts/hero/Hero';
 
 @Controller()
 export class HeroesController {
@@ -21,6 +13,9 @@ export class HeroesController {
     metadata: Metadata,
     call: ServerUnaryCall<any, any>,
   ): Hero {
+    console.log(metadata);
+    console.log(call);
+
     const items: Array<Hero> = [];
 
     for (let index = 0; index < 1000; index++) {

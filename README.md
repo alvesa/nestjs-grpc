@@ -1,10 +1,12 @@
 # Steps
 
-## Install
+## Server
+
+### Install
 
 `pnpm i --save @grpc/grpc-js @grpc/proto-loader`
 
-## Prepare nest to call microservices based on grpc
+### Prepare nest to call microservices based on grpc
 
 **It is required the microservices package**
 `pnpm i @nestjs/microservices --save`
@@ -22,7 +24,7 @@ const app = await NestFactory.createMicroservice<MicroserviceOptions>(
 );
 ```
 
-## Ensure to listen on proto folders and copy the files to dist
+### Ensure to listen on proto folders and copy the files to dist
 
 ``` json
 {
@@ -34,7 +36,7 @@ const app = await NestFactory.createMicroservice<MicroserviceOptions>(
 
 ```
 
-## Defining proto file
+### Defining proto file
 
 ``` protobuf
 syntax = "proto3";
@@ -55,7 +57,7 @@ message Hero {
 }
 ```
 
-## Then whe define the controller call from grpc
+### Then whe define the controller call from grpc
 
 ``` javascript
 import { Metadata, ServerUnaryCall } from '@grpc/grpc-js';
@@ -78,3 +80,10 @@ export class HeroesController {
   }
 }
 ```
+
+## Client
+
+## Install 
+
+- Perform command
+`"protobuff": "$(pnpm bin)/proto-loader-gen-types --defaults --oneofs --grpcLib=@grpc/grpc-js --outDir=./src/grpc/contracts/ ./src/grpc/protos/*.proto"` to auto-generate proto contract interface
