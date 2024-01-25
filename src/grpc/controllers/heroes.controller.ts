@@ -1,27 +1,31 @@
 import { Metadata, ServerUnaryCall } from '@grpc/grpc-js';
 import { Controller } from '@nestjs/common';
 import { GrpcMethod } from '@nestjs/microservices';
-import { randomInt, randomUUID } from 'crypto';
+import { randomUUID } from 'crypto';
 import { HeroDto } from '../contracts/hero/HeroDto';
 import { Hero } from '../contracts/hero/Hero';
 
 @Controller()
 export class HeroesController {
+  constructor() {
+    this.getAllHeroes();
+  }
+  private items: Hero[] = [];
   @GrpcMethod('HeroesService', 'FindOne')
   findOne(
     data: HeroDto,
     metadata: Metadata,
     call: ServerUnaryCall<any, any>,
   ): Hero {
-    console.log(metadata);
-    console.log(call);
+    return this.items.find(({ id }) => id === data.id);
+  }
 
-    const items: Array<Hero> = [];
+  getAllHeroes() {
+    let counter = 1;
 
     for (let index = 0; index < 1000; index++) {
-      items.push({ id: randomInt(1000), name: randomUUID() });
+      this.items.push({ id: counter, name: randomUUID() });
+      counter++;
     }
-
-    return items.find(({ id }) => id === data.id);
   }
 }
